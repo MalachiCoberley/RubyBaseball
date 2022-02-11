@@ -1,5 +1,8 @@
 class Inning
   PITCH_TYPE = ["slider", "changeup", "curveball", "knuckleball", "slider"]
+  STRIKE_LINES = ["A swing and a miss!", "Misjudged the timing on that one.", "Oh, they get caught looking!"]
+  BALL_LINES = ["They're going to take the ball", "They aren't falling for it", "They're going to let that one go by", "Aaaand watches it for a ball"]
+  HIT_LINES = ["I'm never supposed to say this", "It's a single", "That's going to be a double", "Triple!!", "That one is out of the park! A Home Run!"]
 
   attr_reader :runs
 
@@ -10,6 +13,7 @@ class Inning
     @balls = 0
     @strikes = 0
     @runs = 0
+    @runnersOnBase = Array.new(3) {""}
   end
 
   def complete()
@@ -17,9 +21,49 @@ class Inning
     false
   end
 
+  def advanceRunners(numberOfBases)
+    # if numberOfBases == 0
+    #   if @runnersOnBase[0] == ""
+    #     @runnersOnBase[0] = @battingTeam.currentBatter
+    #   elsif @runnersOnBase[1] == ""
+    #     @runnersOnBase[1] = @runnersOnBase[0]
+    #     @runnersOnBase[0] = @battingTeam.currentBatter
+    #   end
+    # end
+
+    numberOfBases.times do |n|
+      if n == 0
+        @runnersOnBase.unshift(@battingTeam.currentBatter)
+      else
+        @runnersOnBase.unshift("")
+      end
+    end
+
+    until @runnersOnBase.length == 3
+      if @runnersOnBase.pop != ""
+        @runs += 1
+        p "That brings the score to #{@runs}"
+      end
+    end
+
+    print @runnersOnBase
+    
+  end
+
   def pitch()
     p "#{@fieldingTeam.getPlayerByPosition("P")} throws a #{PITCH_TYPE.sample}"
-    @strikes += 1
+    pitchDiceRoll = rand(1..10)
+    if pitchDiceRoll <= 3 
+      @strikes += 1
+      p "#{STRIKE_LINES.sample}"
+    elsif pitchDiceRoll >= 8
+      @balls += 1
+      "#{BALL_LINES.sample}"
+    else
+      p "#{HIT_LINES[pitchDiceRoll - 3]}"
+      self.advanceRunners(pitchDiceRoll - 3)
+      self.resetCount
+    end
   end
 
   def resetCount()
