@@ -17,7 +17,7 @@ class Game
 
   def playInningHalf(battingTeam, fieldingTeam)
     currentInning = Inning.new(battingTeam, fieldingTeam)
-    
+
     until currentInning.complete
       currentInning.playInning
     end
@@ -27,6 +27,7 @@ class Game
     else
       @awayScore += currentInning.runs
     end
+    p "That's the end of inning number #{@inning}"
     @inningComplete = true
   end
 
