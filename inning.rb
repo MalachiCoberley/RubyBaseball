@@ -22,14 +22,10 @@ class Inning
   end
 
   def advanceRunners(numberOfBases)
-    # if numberOfBases == 0
-    #   if @runnersOnBase[0] == ""
-    #     @runnersOnBase[0] = @battingTeam.currentBatter
-    #   elsif @runnersOnBase[1] == ""
-    #     @runnersOnBase[1] = @runnersOnBase[0]
-    #     @runnersOnBase[0] = @battingTeam.currentBatter
-    #   end
-    # end
+    if numberOfBases == 0
+      firstEmptyBase = @runnersOnBase.index("")
+      @runnersOnBase.delete_at(firstEmptyBase)
+    end
 
     numberOfBases.times do |n|
       if n == 0
@@ -79,7 +75,7 @@ class Inning
       @outs += 1
       self.resetCount
     elsif @balls >= 4
-      self.advanceRunners(1)
+      self.advanceRunners(0)
       self.resetCount
       p "#{@fieldingTeam.getPlayerByPosition("P")} is going to give them the walk"
     else
