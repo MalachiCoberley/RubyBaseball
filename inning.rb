@@ -24,7 +24,7 @@ class Inning
   def advanceRunners(numberOfBases)
     if numberOfBases == 0
       firstEmptyBase = @runnersOnBase.index("")
-      @runnersOnBase.delete_at(firstEmptyBase)
+      @runnersOnBase&.delete_at(firstEmptyBase)
     end
 
     numberOfBases.times do |n|
