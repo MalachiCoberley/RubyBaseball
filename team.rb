@@ -4,7 +4,7 @@ class Team
   TEAM_NAMES = ["Pirates", "Tigers", "Chargers", "Eagles", "Bears", "Blue Jays", "Robins", "Cardinals", "Panthers", "Falcons", "Hawks", "Trains"]
   POSITIONS = ["P", "C", "FB", "SB", "SS", "TB", "LF", "CF", "RF"]
 
-  attr_reader :lineup, :team_name
+  attr_reader :lineup, :name
 
 
   def self.generate_team()
@@ -17,7 +17,7 @@ class Team
   end
 
   def initialize()
-    @team_name = TEAM_NAMES.sample
+    @name = TEAM_NAMES.sample
     @lineup = Team.generate_team()
     @lineupPosition = 0
   end
