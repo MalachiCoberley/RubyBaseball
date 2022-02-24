@@ -34,7 +34,7 @@ class Game
   def playBall()
     #Primary gameplay loop. Plays through a full 9 innings
     until @inning == 10
-      #Determines which team is at bat
+      #Determine which team is at bat
       until @inningComplete
         if @topOfInning
           self.playInningHalf(@awayTeam, @homeTeam)
